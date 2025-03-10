@@ -47,5 +47,7 @@ Check out the live demo here:
 ## CI/CD Pipeline with **GitHub Actions**: To reduce organization tasks
 
 
+## Others
+1. composer require bensampo/laravel-enum
 
  
