@@ -47,7 +47,9 @@ Check out the live demo here:
 ## CI/CD Pipeline with **GitHub Actions**: To reduce organization tasks
 
 
-## Others
+## Other notes
 1. composer require bensampo/laravel-enum
+2. php artisan migrate:fresh --seed
+- drop all tables in db and re-run all migrations from scratch and run the db seeded after migrating
 
  

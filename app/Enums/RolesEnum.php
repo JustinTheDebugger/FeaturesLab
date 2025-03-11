@@ -23,7 +23,7 @@ enum RolesEnum: string
         return match($this){
             self::Admin => 'Admin',
             self::User => 'User',
-            self::Commeter => 'Commeter',
-        }
+            self::Commenter => 'Commeter',
+        };
     }
 }
