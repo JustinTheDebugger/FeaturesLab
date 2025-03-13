@@ -52,4 +52,20 @@ Check out the live demo here:
 2. php artisan migrate:fresh --seed
 - drop all tables in db and re-run all migrations from scratch and run the db seeded after migrating
 
- 
+## Mailpit 
+Mailpit is packed full of features for developers wanting to test SMTP and emails. It acts as an SMTP server, provides a modern web interface to view & test intercepted emails. It also contains an API for automated integration testing.
+
+**Installation locally** 
+1. Go to Mailpit releases - https://github.com/axllent/mailpit/releases
+2. Download the appropriate Windows .zip file.
+3. Extract the contents to a folder (e.g., C:\mailpit).
+4. Open cmd and navigate to that folder
+cd C:\mailpit
+mailpit.exe
+5. Add Mailpit to System PATH
+
+**Becareful** when installing as it will alter the .env file which will cause appication key missing issue and alter php.ini
+
+Can be fixed by following: 
+https://stackoverflow.com/questions/44839648/no-application-encryption-key-has-been-specified
+https://stackoverflow.com/questions/63955357/laravel-failed-to-listen-on-127-0-0-18000-reason
