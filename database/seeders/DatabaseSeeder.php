@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'commenter@example.com',
         ])->assignRole(RolesEnum::Commenter);
 
+        // defaut password: password
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
