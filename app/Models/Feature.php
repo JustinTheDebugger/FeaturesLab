@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Feature extends Model
 {
-    // use HasFactory;
+    use HasFactory;
 
     public function upvotes(): HasMany
     {

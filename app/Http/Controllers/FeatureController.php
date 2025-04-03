@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FeatureResource;
 use App\Models\Feature;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class FeatureController extends Controller
 {
@@ -12,7 +14,28 @@ class FeatureController extends Controller
      */
     public function index()
     {
-        //
+        $paginated = Feature::latest()->paginate(20);   // fetch 20 records per page
+
+        // send data to the frontend
+        return Inertia::render(
+            'Feature/Index',    //Feature/Index component will receive the data
+            ['features' => FeatureResource::collection($paginated)]     // format the data before sending to frontend
+        );
+
+        // Customizing Pagination
+        // return Inertia::render('Feature/Index', [
+        //     'features' => [
+        //         'data' => FeatureResource::collection($paginated),
+        //         'pagination' => [
+        //             'current_page' => $paginated->currentPage(),
+        //             'last_page' => $paginated->lastPage(),
+        //             'per_page' => $paginated->perPage(),
+        //             'total' => $paginated->total(),
+        //             'next_page_url' => $paginated->nextPageUrl(),
+        //             'prev_page_url' => $paginated->previousPageUrl(),
+        //         ],
+        //     ],
+        // ]);
     }
 
     /**
