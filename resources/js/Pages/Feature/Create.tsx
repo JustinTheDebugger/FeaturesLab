@@ -7,7 +7,7 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Feature } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
-import { FormEventHandler } from "react";
+import { FormEventHandler, useState } from "react";
 
 export default function Show({ feature }: { feature: Feature }) {
   const { data, setData, processing, errors, post } = useForm({
@@ -21,6 +21,12 @@ export default function Show({ feature }: { feature: Feature }) {
     post(route("feature.store"), {
       preserveScroll: true,
     });
+  };
+
+  const handleCancel = () => {
+    // Reset form fields to empty strings
+    setData("name", "");
+    setData("description", "");
   };
 
   return (
@@ -67,7 +73,7 @@ export default function Show({ feature }: { feature: Feature }) {
 
             <div className="flex flex-col w-full items-strectch gap-2 sm:flex-row-reverse sm:items-center sm:gap-4">
               <PrimaryButton disabled={processing}>Save</PrimaryButton>
-              <SecondaryButton disabled={processing}>Cancel</SecondaryButton>
+              <SecondaryButton onClick={handleCancel}>Cancel</SecondaryButton>
             </div>
           </form>
         </div>
