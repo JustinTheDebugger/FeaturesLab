@@ -1,6 +1,7 @@
 import { Feature } from "@/types";
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
+import FeatureActionsDropdown from "./FeatureActionsDropdown";
 
 type Props = {
   feature: Feature;
@@ -77,6 +78,9 @@ export default function FeatureItem({ feature }: Props) {
               )}
             </>
           )}
+        </div>
+        <div>
+          <FeatureActionsDropdown feature={feature} />
         </div>
       </div>
     </div>
