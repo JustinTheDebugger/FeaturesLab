@@ -5,27 +5,36 @@ import {
   InputHTMLAttributes,
 } from "react";
 
-export default forwardRef(function TextInput(
-  {
-    className = "",
-    ...props
-  }: InputHTMLAttributes<HTMLTextAreaElement> & { isFocused?: boolean },
-  ref
-) {
-  const localRef = useRef<HTMLTextAreaElement>(null);
+type TextAreaInputProps = InputHTMLAttributes<HTMLTextAreaElement> & {
+  rows?: number;
+};
 
-  useImperativeHandle(ref, () => ({
-    focus: () => localRef.current?.focus(),
-  }));
+export type TextAreaInputRef = {
+  focus: () => void;
+};
 
-  return (
-    <textarea
-      {...props}
-      className={
-        "border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm " +
-        className
-      }
-      ref={localRef}
-    ></textarea>
-  );
-});
+const TextAreaInput = forwardRef<TextAreaInputRef, TextAreaInputProps>(
+  ({ className = "", rows = 6, ...props }, ref) => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    useImperativeHandle(ref, () => ({
+      focus: () => textareaRef.current?.focus(),
+    }));
+
+    const baseClasses =
+      "border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 " +
+      "focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 " +
+      "dark:focus:ring-indigo-600 rounded-md shadow-sm";
+
+    return (
+      <textarea
+        {...props}
+        ref={textareaRef}
+        rows={rows}
+        className={`${baseClasses} ${className}`}
+      />
+    );
+  }
+);
+
+export default TextAreaInput;

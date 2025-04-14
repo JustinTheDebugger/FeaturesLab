@@ -10,6 +10,7 @@ export default function Authenticated({
   children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
   const user = usePage().props.auth.user;
+  const success: any = usePage().props.success;
 
   console.log(user);
 
@@ -181,6 +182,7 @@ export default function Authenticated({
       )}
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div className="bg-emerald-500 py-4 px-6 mb-8 rounded">{success}</div>
           <main>{children}</main>
         </div>
       </div>

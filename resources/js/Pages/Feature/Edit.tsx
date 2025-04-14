@@ -2,23 +2,27 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
-import TextAreaInput from "@/Components/TextAreaInput";
+import TextAreaInput, { TextAreaInputRef } from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Feature } from "@/types";
 import { Head, useForm } from "@inertiajs/react";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useRef, useState } from "react";
 
-export default function Show() {
-  const { data, setData, processing, errors, post } = useForm({
-    name: "",
-    description: "",
+type Props = {
+  feature: Feature;
+};
+
+export default function Show({ feature }: Props) {
+  const { data, setData, processing, errors, put } = useForm({
+    name: feature.name,
+    description: feature.description,
   });
 
-  const createFeature: FormEventHandler = (e) => {
+  const updateFeature: FormEventHandler = (e) => {
     e.preventDefault();
 
-    post(route("feature.store"), {
+    put(route("feature.update", feature.id), {
       preserveScroll: true,
     });
   };
@@ -27,21 +31,28 @@ export default function Show() {
     // Reset form fields to empty strings
     setData("name", "");
     setData("description", "");
+
+    descriptionRef.current?.focus();
   };
+
+  const descriptionRef = useRef<TextAreaInputRef>(null);
 
   return (
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Create New Feature
+          Edit Feature{" - "}
+          <span className="text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wide">
+            {feature.name}
+          </span>
         </h2>
       }
     >
-      <Head title="Create New Feature" />
+      <Head title={"Edit Feature" + feature.name} />
 
       <div className="mb-4 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div className="p-6 text-gray-900 dark:text-gray-100 flex gap-8">
-          <form onSubmit={createFeature} className="w-full">
+          <form onSubmit={updateFeature} className="w-full">
             <div className="mb-8">
               <InputLabel htmlFor="name" value="Name" />
 
@@ -61,8 +72,9 @@ export default function Show() {
               <InputLabel htmlFor="description" value="Description" />
 
               <TextAreaInput
+                ref={descriptionRef}
                 id="description"
-                rows={6}
+                rows={10}
                 className="mt-1 block w-full"
                 value={data.description}
                 onChange={(e) => setData("description", e.target.value)}
