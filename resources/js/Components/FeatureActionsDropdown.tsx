@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 import { Feature } from "@/types";
+import ConfirmModal from "./ConfirmModal";
+import { router } from "@inertiajs/react";
 
 const FeatureActionsDropdown = ({ feature }: { feature: Feature }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [featureToDelete, setFeatureToDelete] = useState(null);
+
+  // when delete is clicked
+  const confirmDelete = (feature: Feature) => {
+    setFeatureToDelete(feature);
+    setShowModal(true);
+  };
+
+  // when user confirms to delete in the modal
+  const handleDelete = () => {
+    // avoid deleting with an undefined or null value
+    if (featureToDelete) {
+      router.delete(route("feature.destroy", featureToDelete.id));
+      setFeatureToDelete(null);
+      setShowModal(false);
+    }
+  };
+
   return (
     <Dropdown>
       <Dropdown.Trigger>
@@ -33,14 +54,22 @@ const FeatureActionsDropdown = ({ feature }: { feature: Feature }) => {
         <Dropdown.Link href={route("feature.edit", feature.id)}>
           Edit Feature
         </Dropdown.Link>
-        <Dropdown.Link
-          href={route("feature.destroy", feature.id)}
-          method="delete"
-          as="button"
+        <button
+          onClick={() => confirmDelete(feature)}
+          className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
         >
           Delete Feature
-        </Dropdown.Link>
+        </button>
       </Dropdown.Content>
+
+      <ConfirmModal
+        open={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setFeatureToDelete(null);
+        }}
+        onConfirm={handleDelete}
+      />
     </Dropdown>
   );
 };
